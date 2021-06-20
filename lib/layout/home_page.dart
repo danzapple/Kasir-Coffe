@@ -57,29 +57,12 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          coffe = "3";
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => KasirCoffe(
-                                        coffe: "3",
-                                      )));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(top: 15, left: 15, right: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: colorAmber,
-                          ),
-                          padding: EdgeInsets.all(8),
-                          child: contentKasir('3', '80'),
+                    itemKasir(
+                        contentKasir('3', '100'),
+                        KasirCoffe(
+                          coffe: "3",
                         ),
-                      ),
-                    )
+                        "3"),
                   ],
                 ),
               )
@@ -111,7 +94,9 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          coffe = number;
+          setState(() {
+            coffe = number;
+          });
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => navWidget));
         },
