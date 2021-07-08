@@ -13,15 +13,19 @@ class Pesanan extends StatefulWidget {
 class _PesananState extends State<Pesanan> with TickerProviderStateMixin {
   @override
   TabController controller;
+  GlobalKey<ScaffoldState> scafoldState = GlobalKey<ScaffoldState>();
+  var data;
   @override
   void initState() {
     controller = TabController(vsync: this, length: 2, initialIndex: 0);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scafoldState,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -41,7 +45,7 @@ class _PesananState extends State<Pesanan> with TickerProviderStateMixin {
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height - 50,
               width: double.infinity,
               child: TabBarView(
                 controller: controller,
@@ -63,6 +67,7 @@ class _PesananState extends State<Pesanan> with TickerProviderStateMixin {
       child: StreamBuilder(
           stream: Firestore.instance
               .collection("pembelian_brg")
+              .orderBy('konfirmasi', descending: true)
               .where("konfirmasi", isEqualTo: konfirmasi == "" ? "" : "sukses")
               .where("coffe", isEqualTo: "Coffe $coffe")
               .snapshots(),
@@ -70,27 +75,53 @@ class _PesananState extends State<Pesanan> with TickerProviderStateMixin {
             if (!snapshot.hasData)
               return SizedBox();
             else
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: double.infinity,
-                child: ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) {
-                    var namaBarang =
-                        snapshot.data.documents[index]['nama_barang'];
+              return Column(
+                children: [
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    color: colorAmber2,
+                    child: Center(
+                        child: Text(
+                      konfirmasi == ""
+                          ? "Total Belum Terkonfirmasi " +
+                              snapshot.data.documents.length.toString()
+                          : 'Total Terkonfirmasi ' +
+                              snapshot.data.documents.length.toString(),
+                      style: textStyle11White,
+                    )),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height - 100,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(bottom: 200),
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        var namaBarang =
+                            snapshot.data.documents[index]['nama_barang'];
 
-                    int total = snapshot.data.documents[index]['total'];
+                        int total = snapshot.data.documents[index]['total'];
 
-                    String meja = snapshot.data.documents[index]['meja'];
+                        String meja = snapshot.data.documents[index]['meja'];
 
-                    String user = snapshot.data.documents[index]['user'];
-                    String pembayaran =
-                        snapshot.data.documents[index]['pembayaran'];
-                    var ref = snapshot.data.documents[index].reference;
-                    return mejaPesanan(user, meja, namaBarang, pembayaran,
-                        konfirmasi == "" ? "" : "sukses", total, ref, context);
-                  },
-                ),
+                        String user = snapshot.data.documents[index]['user'];
+                        String pembayaran =
+                            snapshot.data.documents[index]['pembayaran'];
+                        var ref = snapshot.data.documents[index].reference;
+                        return mejaPesanan(
+                            user,
+                            meja,
+                            namaBarang,
+                            pembayaran,
+                            konfirmasi == "" ? "" : "sukses",
+                            total,
+                            ref,
+                            context);
+                      },
+                    ),
+                  ),
+                ],
               );
           }),
     );
