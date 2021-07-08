@@ -114,7 +114,7 @@ class _VirtualBankState extends State<VirtualBank>
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery.of(context).size.height - 50,
               width: double.infinity,
               child: TabBarView(
                 controller: controller,
@@ -157,7 +157,7 @@ class _VirtualBankState extends State<VirtualBank>
                     )),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height - 100,
+                    height: MediaQuery.of(context).size.height - 200,
                     width: double.infinity,
                     child: ListView.builder(
                       physics: ScrollPhysics(),
