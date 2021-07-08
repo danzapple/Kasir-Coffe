@@ -114,9 +114,10 @@ class _VirtualBankState extends State<VirtualBank>
               ],
             ),
             Container(
-              height: MediaQuery.of(context).size.height - 200,
+              height: MediaQuery.of(context).size.height - 250,
               width: double.infinity,
               child: TabBarView(
+                physics: ScrollPhysics(),
                 controller: controller,
                 children: [paymentList(""), paymentList("sukses")],
               ),
