@@ -155,7 +155,7 @@ class _VirtualBankState extends State<VirtualBank>
                   )),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height - 100,
                   width: double.infinity,
                   child: ListView.builder(
                     itemCount: snapshot.data.documents.length,
