@@ -159,6 +159,7 @@ class _VirtualBankState extends State<VirtualBank>
                     height: MediaQuery.of(context).size.height - 100,
                     width: double.infinity,
                     child: ListView.builder(
+                      physics: ScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
                         String jumlahSaldo =
