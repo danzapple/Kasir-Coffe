@@ -138,29 +138,51 @@ class _VirtualBankState extends State<VirtualBank>
           if (!snapshot.hasData)
             return SizedBox();
           else
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) {
-                String jumlahSaldo =
-                    snapshot.data.documents[index]['jum_saldo'];
-                String tmpSaldo =
-                    snapshot.data.documents[index]['tambah_saldo'];
-                String nama = snapshot.data.documents[index]['nama_user'];
-                String id = snapshot.data.documents[index]['id'];
-                String type = snapshot.data.documents[index]['type'];
-                int jumSaldo = int.parse(jumlahSaldo) +
-                    (tmpSaldo == "" ? 0 : int.parse(tmpSaldo));
-                var ref = snapshot.data.documents[index].reference;
+            return Column(
+              children: [
+                Container(
+                  height: 50,
+                  width: double.infinity,
+                  color: colorAmber2,
+                  child: Center(
+                      child: Text(
+                    konfirmasi == ""
+                        ? "Total Belum Terkonfirmasi " +
+                            snapshot.data.documents.length.toString()
+                        : 'Total Terkonfirmasi ' +
+                            snapshot.data.documents.length.toString(),
+                    style: textStyle11White,
+                  )),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      String jumlahSaldo =
+                          snapshot.data.documents[index]['jum_saldo'];
+                      String tmpSaldo =
+                          snapshot.data.documents[index]['tambah_saldo'];
+                      String nama = snapshot.data.documents[index]['nama_user'];
+                      String id = snapshot.data.documents[index]['id'];
+                      String type = snapshot.data.documents[index]['type'];
+                      int jumSaldo = int.parse(jumlahSaldo) +
+                          (tmpSaldo == "" ? 0 : int.parse(tmpSaldo));
+                      var ref = snapshot.data.documents[index].reference;
 
-                return paymentItem(
-                    nama,
-                    konfirmasi == "" ? "" : "sukses",
-                    id,
-                    type,
-                    tmpSaldo == "" ? jumlahSaldo : tmpSaldo,
-                    jumSaldo.toString(),
-                    ref);
-              },
+                      return paymentItem(
+                          nama,
+                          konfirmasi == "" ? "" : "sukses",
+                          id,
+                          type,
+                          tmpSaldo == "" ? jumlahSaldo : tmpSaldo,
+                          jumSaldo.toString(),
+                          ref);
+                    },
+                  ),
+                ),
+              ],
             );
         });
   }
