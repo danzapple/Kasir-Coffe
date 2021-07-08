@@ -128,18 +128,19 @@ class _VirtualBankState extends State<VirtualBank>
   }
 
   paymentList(String konfirmasi) {
-    return StreamBuilder(
-        stream: Firestore.instance
-            .collection("virtualBank")
-            .where("coffe", isEqualTo: widget.coffe)
-            .where("verifikasi", isEqualTo: konfirmasi == "" ? "" : "sukses")
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData)
-            return SizedBox();
-          else
-            return SingleChildScrollView(
-              child: Column(
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      child: StreamBuilder(
+          stream: Firestore.instance
+              .collection("virtualBank")
+              .where("coffe", isEqualTo: widget.coffe)
+              .where("verifikasi", isEqualTo: konfirmasi == "" ? "" : "sukses")
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData)
+              return SizedBox();
+            else
+              return Column(
                 children: [
                   Container(
                     height: 50,
@@ -186,9 +187,9 @@ class _VirtualBankState extends State<VirtualBank>
                     ),
                   ),
                 ],
-              ),
-            );
-        });
+              );
+          }),
+    );
   }
 
   Container paymentItem(String nama, String konfirmasi, String id, String type,
